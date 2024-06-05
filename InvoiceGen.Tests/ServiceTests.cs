@@ -70,13 +70,13 @@ namespace InvoiceGen.Tests
                         new OrderItem
                         {
                             Name = "Diverse werkzaamheden",
-                            Price = 25.50M,
+                            Price = 25.50,
                             Quantity = 10
                         },
                         new OrderItem
                         {
                             Name = "Voorrijkosten",
-                            Price = 0.25M,
+                            Price = 0.25,
                             Quantity = 45
                         }
                     }
@@ -93,7 +93,7 @@ namespace InvoiceGen.Tests
             string connectString = "UseDevelopmentStorage=true";
             var serviceClient = new TableServiceClient(connectString);
             InvoiceService service = new InvoiceService(serviceClient, connectString);
-            Invoice invoice = service.GetInvoiceAsync("fcd0ab37-56dc-4a3d-a980-94aeae01de8e").Result;
+            Invoice invoice = service.GetInvoiceAsync("2ce8d915-8d05-4bae-9d4e-eea7093656ac").Result;
             if (invoice != null)
             {
                 Assert.AreEqual(2, invoice.Items.Count());

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -53,9 +54,28 @@ namespace InvoiceGen.Api.Services
             }
         } // end f
 
-        public Task DeleteInvoiceAsync(string rowKey)
+        public async Task DeleteInvoiceAsync(string rowKey)
         {
-            throw new NotImplementedException();
+            // Get invoice
+            Invoice invoice = await _invoiceContainer.GetEntityAsync<Invoice>("Invoice",rowKey);
+            if (invoice != null) 
+            {
+                // Delete underlying line items
+                var query = from c in _orderItemContainer.Query<OrderItem>()
+                            where c.RelatedInvoiceId == invoice.InvoiceId
+                            where c.PartitionKey == "OrderItem"
+                            select c;
+                if (query.Any())
+                {
+                    foreach (OrderItem item in query)
+                    {
+                        await _orderItemContainer.DeleteEntityAsync("OrderItem", item.RowKey);
+                    }
+                }
+
+                // Delete the invoice
+                await _invoiceContainer.DeleteEntityAsync("Invoice", rowKey);
+            }
         }
 
         public async Task<Invoice> GetInvoiceAsync(string rowKey)
@@ -71,9 +91,9 @@ namespace InvoiceGen.Api.Services
                 {
                     invoice = query.FirstOrDefault();
                     var itemQuery = from c in _orderItemContainer.Query<OrderItem>()
-                                where c.RelatedInvoiceId == invoice.InvoiceId
-                                where c.PartitionKey == "OrderItem"
-                                select c;
+                                    where c.RelatedInvoiceId == invoice.InvoiceId
+                                    where c.PartitionKey == "OrderItem"
+                                    select c;
 
                     invoice.Items = new List<OrderItem>();
                     if (itemQuery.Any())
@@ -96,7 +116,20 @@ namespace InvoiceGen.Api.Services
                         select c;
             try
             {
-                return query.ToList();
+                var invoices = query.ToList();
+                foreach(Invoice invoice in invoices)
+                {
+                    invoice.Items = new List<OrderItem>();
+                    var itemQuery = from c in _orderItemContainer.Query<OrderItem>()
+                                    where c.RelatedInvoiceId == invoice.InvoiceId
+                                    where c.PartitionKey == "OrderItem"
+                                    select c;
+                    if (itemQuery.Any())
+                    {
+                        invoice.Items = itemQuery.ToList();
+                    }
+                }
+                return invoices;
             }
             catch (Exception ex)
             {
@@ -105,10 +138,25 @@ namespace InvoiceGen.Api.Services
             return null;
         } // end f
 
-        public Task UpdateInvoiceAsync(Invoice invoice)
+        public async Task UpdateInvoiceAsync(Invoice invoice)
         {
-            throw new NotImplementedException();
-        }
+            await _invoiceContainer.UpsertEntityAsync<Invoice>(invoice);
+            if (invoice.Items != null)
+            {
+                foreach (OrderItem item in invoice.Items)
+                {
+                    if (string.IsNullOrEmpty(item.RowKey))
+                    {
+                        item.RowKey = Guid.NewGuid().ToString();
+                    }
+                    if (string.IsNullOrEmpty(item.RelatedInvoiceId))
+                    {
+                        item.RelatedInvoiceId = invoice.InvoiceId;
+                    }
+                    await this._orderItemContainer.UpsertEntityAsync<OrderItem>(item);
+                }
+            }
+        } // end f
 
         protected int GetNewInvoiceId()
         {

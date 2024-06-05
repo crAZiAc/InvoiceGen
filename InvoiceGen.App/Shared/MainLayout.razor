@@ -1,20 +1,52 @@
 ﻿@inherits LayoutComponentBase
 
-<PageTitle>InvoiceGen.App</PageTitle>
+<div class="bb-page">
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+    <Sidebar @ref="sidebar"
+             IconName="IconName.BootstrapFill"
+             Title="Blazor Bootstrap"
+             DataProvider="SidebarDataProvider" />
 
     <main>
-        <div class="top-row px-4 auth">
+        <div class="bb-top-row px-4 d-flex justify-content-end">
             <LoginDisplay />
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
         </div>
 
         <article class="content px-4">
-            @Body
+            <div class="py-2">
+                @Body
+            </div>
         </article>
     </main>
+
 </div>
+
+<Modal IsServiceModal="true" />
+<Preload />
+<Toasts class="p-3" AutoHide="true" Delay="4000" Placement="ToastsPlacement.TopRight" />
+
+@code {
+    private Sidebar sidebar = default!;
+    private IEnumerable<NavItem> navItems = default!;
+
+    private async Task<SidebarDataProviderResult> SidebarDataProvider(SidebarDataProviderRequest request)
+    {
+        if (navItems is null)
+            navItems = GetNavItems();
+
+        return await Task.FromResult(request.ApplyTo(navItems));
+    }
+
+    private IEnumerable<NavItem> GetNavItems()
+    {
+        navItems = new List<NavItem>
+        {
+            new NavItem { Id = "1", Href = "/", IconName = IconName.HouseDoorFill, Text = "Home", Match=NavLinkMatch.All},
+            new NavItem { Id = "2", Href = "/invoices", IconName = IconName.PlusSquareFill, Text = "Facturen"},
+            new NavItem { Id = "3", Href = "/address", IconName = IconName.Table, Text = "Adressen"},
+        };
+
+        return navItems;
+    }
+}

@@ -27,16 +27,17 @@ namespace InvoiceGen.Api.Services
             }
         } // end prop
 
-        public async Task AddAddressAsync(Address address)
+        public async Task<Address> AddAddressAsync(Address address)
         {
             try
             {
                 address.RowKey = Guid.NewGuid().ToString();
                 await this._addressContainer.AddEntityAsync<Address>(address);
+                return address;
             }
             catch (Exception ex)
             {
-
+                return null;
             }
         } // end f
 

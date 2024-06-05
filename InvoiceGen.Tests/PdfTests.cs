@@ -37,13 +37,13 @@ namespace InvoiceGen.Tests
                     new OrderItem
                     {
                         Name = "Diverse werkzaamheden",
-                        Price = 25.50M,
+                        Price = 25.50,
                         Quantity = 10
                     },
                     new OrderItem
                     {
                         Name = "Voorrijkosten",
-                        Price = 0.25M,
+                        Price = 0.25,
                         Quantity = 45
                     }
                 }

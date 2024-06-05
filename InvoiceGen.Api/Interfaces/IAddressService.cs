@@ -14,7 +14,7 @@ namespace InvoiceGen.Api.Interfaces
 
         Task<List<Address>> GetAddressesAsync();
         Task<Address> GetAddressAsync(string rowKey);
-        Task AddAddressAsync(Address address);
+        Task<Address> AddAddressAsync(Address address);
         Task UpdateAddressAsync(Address address);
         Task DeleteAddressAsync(string rowKey);
 

@@ -1,0 +1,38 @@
+﻿@page "/invoices"
+@using InvoiceGen.App.Data
+@using InvoiceGen.Api
+@attribute [Authorize]
+
+<PageTitle>Facturen</PageTitle>
+
+<h1>Facturen</h1>
+
+@if (_invoices == null)
+{
+    <p><em>Facturen laden...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var invoice in _invoices)
+            {
+                <tr>
+                    <td>@invoice.IssueDate.ToShortDateString()</td>
+                    <td>@invoice.CustomerAddress.CompanyName</td>
+                    <td>@invoice.InvoiceId</td>
+                    <td>@invoice.TotalAmountWithVat</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

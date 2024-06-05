@@ -36,7 +36,7 @@ namespace InvoiceGen.Api.Models
         }
 
         [IgnoreDataMember]
-        public decimal TotalAmount
+        public double TotalAmount
         {
             get
             {
@@ -44,7 +44,7 @@ namespace InvoiceGen.Api.Models
             }
         }
         [IgnoreDataMember]
-        public decimal TotalAmountWithVat
+        public double TotalAmountWithVat
         {
             get
             {
@@ -52,7 +52,7 @@ namespace InvoiceGen.Api.Models
             }
         }
         [IgnoreDataMember]
-        public decimal TotalVat
+        public double TotalVat
         {
             get
             {
@@ -70,10 +70,10 @@ namespace InvoiceGen.Api.Models
         }
         public string RelatedInvoiceId { get; set; }
         public string Name { get; set; }
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         public int Quantity { get; set; }
         [IgnoreDataMember]
-        public decimal VatAmount
+        public double VatAmount
         {
             get
             {
