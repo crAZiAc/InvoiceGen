@@ -14,6 +14,7 @@
 }
 else
 {
+    
     <Button Type="ButtonType.Button" Color="ButtonColor.Primary" @onclick="AddInvoice"> Maak factuur </Button>
     <Grid @ref="grid" TItem="Invoice" class="table table-hover table-bordered table-striped mt-3" Data="_invoices"
           AllowFiltering
@@ -26,7 +27,7 @@ else
             @context.InvoiceId
         </GridColumn>
         <GridColumn TItem="Invoice" HeaderText="Factuurdatum" PropertyName="IssueDate">
-            @context.IssueDate
+            @context.IssueDate.Value.ToShortDateString()
         </GridColumn>
         <GridColumn TItem="Invoice" HeaderText="Debiteur" PropertyName="CustomerAddress.CompanyName">
             @context.CustomerAddress.CompanyName

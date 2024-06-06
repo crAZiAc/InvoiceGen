@@ -13,7 +13,7 @@ namespace InvoiceGen.Tests
             Invoice invoice = new Invoice
             {
                 InvoiceNumber = 1,
-                IssueDate = DateOnly.FromDateTime(DateTime.Now),
+                IssueDate = DateTime.Now,
                 SellerAddress = new Address
                 {
                     CompanyName = "Tom Visser",

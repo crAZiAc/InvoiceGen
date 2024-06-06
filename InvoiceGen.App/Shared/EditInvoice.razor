@@ -1,19 +1,4 @@
-﻿@using System.ComponentModel.DataAnnotations
-@using InvoiceGen.Api.Models;
-
-<style>
-    .valid.modified:not([type=checkbox]) {
-        outline: 1px solid #26b050;
-    }
-
-    .invalid {
-        outline: 1px solid red;
-    }
-
-    .validation-message {
-        color: red;
-    }
-</style>
+﻿@using InvoiceGen.Api.Models;
 
 <div class="form-group row mb-3">
     <label class="col-md-2 col-form-label">Factuurnummer: </label>
@@ -22,15 +7,15 @@
 <div class="form-group row mb-3">
     <label class="col-md-2 col-form-label">Factuurdatum: </label>
     <div class="col-md-10">
-        <DateInput TValue="DateOnly?" @bind-Value="invoice.IssueDate" Placeholder="Factuurdatum" />
+        <DateInput TValue="DateTime?" @bind-Value="invoice.IssueDate" Placeholder="Factuurdatum" />
     </div>
 </div>
 
 <div class="form-group row mb-3">
-    
+
     <Grid @ref="orderItemsGrid" TItem="OrderItem" class="table table-hover table-bordered table-striped mt-3" Data="orderItems"
           AllowRowClick
-          OnRowDoubleClick="EditItem">
+          OnRowClick="SelectItem">
         <GridColumn TItem="OrderItem" HeaderText="Omschrijving" PropertyName="Name">
             @context.Name
         </GridColumn>
@@ -50,4 +35,28 @@
     <Button Type="ButtonType.Button" Color="ButtonColor.Primary" @onclick="AddItem"> Voeg regel toe </Button>
 </div>
 
+@if (currentItem != null)
+{
+    <div class="form-group row mb-3">
+        <label class="col-md-2 col-form-label">Omschrijving: </label>
+        <div class="col-7 col-md-9">
+            <InputText @bind-Value="currentItem.Name" />
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-2 col-form-label">Aantal: </label>
+        <div class="col-md-10">
+            <NumberInput TValue="int" @bind-Value="currentItem.Quantity" Placeholder="Aantal" />
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-2 col-form-label">Prijs: </label>
+        <div class="col-md-10">
+            <CurrencyInput TValue="double" @bind-Value="currentItem.Price" Locale="nl-NL" Placeholder="Prijs" />
+        </div>
+    </div>
+    <Button Type="ButtonType.Button" Color="ButtonColor.Warning" @onclick="(args)=> RemoveOrderItem(args, currentItem)"> Verwijder regel </Button>
+}
 

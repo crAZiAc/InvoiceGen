@@ -61,7 +61,7 @@ namespace InvoiceGen.Tests
             {
                 service.AddInvoiceAsync(new Api.Models.Invoice
                 {
-                    IssueDate = DateOnly.FromDateTime(DateTime.Now),
+                    IssueDate = DateTime.Now,
                     Comments = "First one",
                     SellerAddressId = "ba99e3c3-24a7-42ae-81b9-491d8df54998",
                     CustomerAddressId = "ba99e3c3-24a7-42ae-81b9-491d8df54998",

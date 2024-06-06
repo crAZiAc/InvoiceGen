@@ -57,8 +57,8 @@ namespace InvoiceGen.Api.Services
         public async Task DeleteInvoiceAsync(string rowKey)
         {
             // Get invoice
-            Invoice invoice = await _invoiceContainer.GetEntityAsync<Invoice>("Invoice",rowKey);
-            if (invoice != null) 
+            Invoice invoice = await _invoiceContainer.GetEntityAsync<Invoice>("Invoice", rowKey);
+            if (invoice != null)
             {
                 // Delete underlying line items
                 var query = from c in _orderItemContainer.Query<OrderItem>()
@@ -76,7 +76,12 @@ namespace InvoiceGen.Api.Services
                 // Delete the invoice
                 await _invoiceContainer.DeleteEntityAsync("Invoice", rowKey);
             }
-        }
+        } // end f
+
+        public async Task DeleteOrderItemAsync(string rowKey)
+        {
+            await _orderItemContainer.DeleteEntityAsync("OrderItem", rowKey);
+        } // end f
 
         public async Task<Invoice> GetInvoiceAsync(string rowKey)
         {
@@ -117,7 +122,7 @@ namespace InvoiceGen.Api.Services
             try
             {
                 var invoices = query.ToList();
-                foreach(Invoice invoice in invoices)
+                foreach (Invoice invoice in invoices)
                 {
                     invoice.Items = new List<OrderItem>();
                     var itemQuery = from c in _orderItemContainer.Query<OrderItem>()
@@ -179,5 +184,6 @@ namespace InvoiceGen.Api.Services
                 return 1;
             }
         }
+
     } // end c
 } // end ns

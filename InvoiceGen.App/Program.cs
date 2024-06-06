@@ -41,7 +41,6 @@ builder.Services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-builder.Services.AddSingleton<WeatherForecastService>();
 
 builder.Services.AddSingleton<IInvoiceService>(InitializeInvoiceTableClientInstanceAsync(builder.Configuration).GetAwaiter().GetResult());
 builder.Services.AddSingleton<IAddressService>(InitializeAddressTableClientInstanceAsync(builder.Configuration).GetAwaiter().GetResult());

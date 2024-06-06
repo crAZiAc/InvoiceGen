@@ -13,8 +13,7 @@ namespace InvoiceGen.Api.Models
             this.PartitionKey = "Invoice";
         }
         public int InvoiceNumber { get; set; }
-        [Required(ErrorMessage = "Factuurdatum verplicht.")]
-        public DateOnly? IssueDate { get; set; }
+        public DateTime? IssueDate { get; set; }
 
         public string SellerAddressId { get; set; }
         public string CustomerAddressId { get; set; }

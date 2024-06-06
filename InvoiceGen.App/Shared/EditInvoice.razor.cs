@@ -2,42 +2,46 @@
 using InvoiceGen.Api.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace InvoiceGen.App.Shared
 {
     public partial class EditInvoice
     {
         [Parameter] public Invoice invoice { get; set; }
-        private EditContext? editContext;
+        [Parameter] public OrderItem currentItem { get; set; }
         private List<OrderItem> orderItems;
-        private OrderItem _currentItem;
 
         private Grid<OrderItem> orderItemsGrid;
+        private Modal modal = default!;
+
+        [Parameter] public EventCallback<OrderItem> OnDeleteItemCallBack { get; set; }
 
         protected override void OnInitialized()
         {
             orderItems = invoice.Items;
-            editContext = new EditContext(invoice);
             base.OnInitialized();
         }
 
         private async Task AddItem()
         {
-
-            //_invoices!.Add(CreateEmployee());
-            //await grid.RefreshDataAsync();
+            OrderItem newItem = new OrderItem();
+            currentItem = newItem;
+            invoice.Items.Add(currentItem);
+            await orderItemsGrid.RefreshDataAsync();
         }
 
-        private async Task EditItem(GridRowEventArgs<OrderItem> e)
+        private async Task SelectItem(GridRowEventArgs<OrderItem> e)
         {
-            _currentItem = e.Item;
-            var parameters = new Dictionary<string, object>
-            {
-                { "item", _currentItem }
-            };
-            //await modal.ShowAsync<EditInvoice>(title: $"Factuur: {_currentInvoice.InvoiceId}", parameters: parameters);
-            //_invoices!.Add(CreateEmployee());
-            //await grid.RefreshDataAsync();
+            currentItem = e.Item;
+        }
+
+        private async Task RemoveOrderItem(MouseEventArgs e, OrderItem item)
+        {
+            await OnDeleteItemCallBack.InvokeAsync(item);
+            invoice.Items.Remove(item);
+            currentItem = null;
+            await orderItemsGrid.RefreshDataAsync();
         }
     } // end c
 } // end ns

@@ -107,5 +107,15 @@ namespace InvoiceGen.Api.Controllers
             await _invoiceService.DeleteInvoiceAsync(ID);
         } // end f
 
+        /// <summary>
+        /// Deletes the line item
+        /// </summary>
+        /// <param name="ID">This is the line item Identifier, technically a GUID string: the rowKey from the Azure Table</param>
+        /// <returns>Result for the operation</returns>
+        public async Task DeleteOrderItem(string ID)
+        {
+            await _invoiceService.DeleteOrderItemAsync(ID);
+        } // end f
+
     } // end c
 } // end ns

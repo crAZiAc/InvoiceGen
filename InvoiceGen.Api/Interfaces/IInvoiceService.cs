@@ -15,5 +15,6 @@ namespace InvoiceGen.Api.Interfaces
         Task AddInvoiceAsync(Invoice invoice);
         Task UpdateInvoiceAsync(Invoice invoice);
         Task DeleteInvoiceAsync(string rowKey);
+        Task DeleteOrderItemAsync(string rowKey);
     } // end i
 } // end cs

@@ -29,7 +29,7 @@ namespace InvoiceGen.Tests
             {
                 CustomerAddressId = "ba99e3c3-24a7-42ae-81b9-491d8df54998",
                 SellerAddressId = "ba99e3c3-24a7-42ae-81b9-491d8df54998",
-                IssueDate = DateOnly.FromDateTime(DateTime.Now),
+                IssueDate = DateTime.Now,
                 Items = new List<OrderItem>
                 {
                     new OrderItem
