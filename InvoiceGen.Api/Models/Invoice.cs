@@ -1,4 +1,5 @@
 ﻿using Azure.Data.Tables;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Net;
 using System.Runtime.Serialization;
@@ -12,7 +13,8 @@ namespace InvoiceGen.Api.Models
             this.PartitionKey = "Invoice";
         }
         public int InvoiceNumber { get; set; }
-        public DateTime IssueDate { get; set; }
+        [Required(ErrorMessage = "Factuurdatum verplicht.")]
+        public DateOnly? IssueDate { get; set; }
 
         public string SellerAddressId { get; set; }
         public string CustomerAddressId { get; set; }
@@ -78,6 +80,14 @@ namespace InvoiceGen.Api.Models
             get
             {
                 return Price * Quantity * Constants.VAT_AMOUNT;
+            }
+        }
+        [IgnoreDataMember]
+        public double Amount
+        {
+            get
+            {
+                return Price * Quantity;
             }
         }
     } // end c

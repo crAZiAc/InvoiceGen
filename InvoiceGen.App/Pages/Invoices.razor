@@ -1,6 +1,7 @@
 ﻿@page "/invoices"
 @using InvoiceGen.App.Data
 @using InvoiceGen.Api
+@using InvoiceGen.Api.Models;
 @attribute [Authorize]
 
 <PageTitle>Facturen</PageTitle>
@@ -13,26 +14,36 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var invoice in _invoices)
-            {
-                <tr>
-                    <td>@invoice.IssueDate.ToShortDateString()</td>
-                    <td>@invoice.CustomerAddress.CompanyName</td>
-                    <td>@invoice.InvoiceId</td>
-                    <td>@invoice.TotalAmountWithVat</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <Button Type="ButtonType.Button" Color="ButtonColor.Primary" @onclick="AddInvoice"> Maak factuur </Button>
+    <Grid @ref="grid" TItem="Invoice" class="table table-hover table-bordered table-striped mt-3" Data="_invoices"
+          AllowFiltering
+          AllowSorting
+          AllowPaging
+          PageSize="5"
+          AllowRowClick
+          OnRowDoubleClick="EditInvoice">
+        <GridColumn TItem="Invoice" HeaderText="Factuurnummer" PropertyName="InvoiceId">
+            @context.InvoiceId
+        </GridColumn>
+        <GridColumn TItem="Invoice" HeaderText="Factuurdatum" PropertyName="IssueDate">
+            @context.IssueDate
+        </GridColumn>
+        <GridColumn TItem="Invoice" HeaderText="Debiteur" PropertyName="CustomerAddress.CompanyName">
+            @context.CustomerAddress.CompanyName
+        </GridColumn>
+        <GridColumn TItem="Invoice" HeaderText="BTW" PropertyName="TotalVat">
+            @context.TotalVat.ToString("C2")
+        </GridColumn>
+        <GridColumn TItem="Invoice" HeaderText="Totaal" PropertyName="TotalAmountWithVat">
+            @context.TotalAmountWithVat.ToString("C2")
+        </GridColumn>
+    </Grid>
+
+    <Modal @ref="modal" IsVerticallyCentered="true" Size="ModalSize.Large">
+        <FooterTemplate>
+            <Button Color="ButtonColor.Secondary" @onclick="OnHideModalClick">Sluiten</Button>
+            <Button Color="ButtonColor.Primary" @onclick="OnSaveClick">Opslaan</Button>
+        </FooterTemplate>
+    </Modal>
 }
 

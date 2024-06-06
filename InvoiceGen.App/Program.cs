@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using QuestPDF.Infrastructure;
 using System.Globalization;
+using Microsoft.Extensions.Azure;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -45,6 +46,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddSingleton<IInvoiceService>(InitializeInvoiceTableClientInstanceAsync(builder.Configuration).GetAwaiter().GetResult());
 builder.Services.AddSingleton<IAddressService>(InitializeAddressTableClientInstanceAsync(builder.Configuration).GetAwaiter().GetResult());
 builder.Services.AddBlazorBootstrap();
+
 
 var app = builder.Build();
 

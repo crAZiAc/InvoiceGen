@@ -1,0 +1,53 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using InvoiceGen.Api.Models;
+
+<style>
+    .valid.modified:not([type=checkbox]) {
+        outline: 1px solid #26b050;
+    }
+
+    .invalid {
+        outline: 1px solid red;
+    }
+
+    .validation-message {
+        color: red;
+    }
+</style>
+
+<div class="form-group row mb-3">
+    <label class="col-md-2 col-form-label">Factuurnummer: </label>
+    <div class="col-7 col-md-9"><input type="text" readonly disabled value="@invoice.InvoiceId" /></div>
+</div>
+<div class="form-group row mb-3">
+    <label class="col-md-2 col-form-label">Factuurdatum: </label>
+    <div class="col-md-10">
+        <DateInput TValue="DateOnly?" @bind-Value="invoice.IssueDate" Placeholder="Factuurdatum" />
+    </div>
+</div>
+
+<div class="form-group row mb-3">
+    
+    <Grid @ref="orderItemsGrid" TItem="OrderItem" class="table table-hover table-bordered table-striped mt-3" Data="orderItems"
+          AllowRowClick
+          OnRowDoubleClick="EditItem">
+        <GridColumn TItem="OrderItem" HeaderText="Omschrijving" PropertyName="Name">
+            @context.Name
+        </GridColumn>
+        <GridColumn TItem="OrderItem" HeaderText="Aantal" PropertyName="Quantity">
+            @context.Quantity
+        </GridColumn>
+        <GridColumn TItem="OrderItem" HeaderText="Prijs" PropertyName="Price">
+            @context.Price
+        </GridColumn>
+        <GridColumn TItem="OrderItem" HeaderText="BTW" PropertyName="VatAmount">
+            @context.VatAmount.ToString("C2")
+        </GridColumn>
+        <GridColumn TItem="OrderItem" HeaderText="Totaal" PropertyName="Amount">
+            @context.Amount.ToString("C2")
+        </GridColumn>
+    </Grid>
+    <Button Type="ButtonType.Button" Color="ButtonColor.Primary" @onclick="AddItem"> Voeg regel toe </Button>
+</div>
+
+
