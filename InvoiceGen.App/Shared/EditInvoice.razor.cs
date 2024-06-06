@@ -10,6 +10,8 @@ namespace InvoiceGen.App.Shared
     {
         [Parameter] public Invoice invoice { get; set; }
         [Parameter] public OrderItem currentItem { get; set; }
+
+        [Parameter] public List<Address> addresses { get; set; }
         private List<OrderItem> orderItems;
 
         private Grid<OrderItem> orderItemsGrid;

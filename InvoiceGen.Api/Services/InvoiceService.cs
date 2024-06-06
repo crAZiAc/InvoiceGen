@@ -47,6 +47,10 @@ namespace InvoiceGen.Api.Services
                         await this._orderItemContainer.AddEntityAsync<OrderItem>(item);
                     }
                 }
+                else
+                {
+                    invoice.Items = new List<OrderItem>();
+                }
             }
             catch (Exception ex)
             {

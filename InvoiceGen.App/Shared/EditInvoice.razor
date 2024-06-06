@@ -1,13 +1,35 @@
 ﻿@using InvoiceGen.Api.Models;
 
 <div class="form-group row mb-3">
-    <label class="col-md-2 col-form-label">Factuurnummer: </label>
-    <div class="col-7 col-md-9"><input type="text" readonly disabled value="@invoice.InvoiceId" /></div>
+    <label class="col-md-2 col-form-label form-label">Factuurnummer: </label>
+    <div class="col-7 col-md-9"><input type="text" readonly disabled value="@invoice.InvoiceId" class="form-control" /></div>
 </div>
 <div class="form-group row mb-3">
     <label class="col-md-2 col-form-label">Factuurdatum: </label>
     <div class="col-md-10">
         <DateInput TValue="DateTime?" @bind-Value="invoice.IssueDate" Placeholder="Factuurdatum" />
+    </div>
+</div>
+
+<div class="form-group row mb-3">
+    <label class="col-md-2 col-form-label form-label">Commentaar: </label>
+    <div class="col-7 col-md-9">
+        <InputText @bind-Value="invoice.Comments" class="form-control" />
+        </div>
+</div>
+
+
+<div class="form-group row mb-3">
+    <label class="col-md-2 col-form-label form-label">Debiteur: </label>
+    <div class="col-7 col-md-9">
+        <InputSelect @bind-Value="invoice.CustomerAddressId" class="form-select">
+            @foreach(Address address in addresses)
+            {
+                <option value="@address.RowKey">
+                    @address.CompanyName
+                </option>
+            }
+        </InputSelect>
     </div>
 </div>
 
@@ -38,9 +60,9 @@
 @if (currentItem != null)
 {
     <div class="form-group row mb-3">
-        <label class="col-md-2 col-form-label">Omschrijving: </label>
+        <label class="col-md-2 col-form-label form-label">Omschrijving: </label>
         <div class="col-7 col-md-9">
-            <InputText @bind-Value="currentItem.Name" />
+            <InputText @bind-Value="currentItem.Name" class="form-control" />
         </div>
     </div>
 

@@ -32,6 +32,11 @@ else
         <GridColumn TItem="Invoice" HeaderText="Debiteur" PropertyName="CustomerAddress.CompanyName">
             @context.CustomerAddress.CompanyName
         </GridColumn>
+
+        <GridColumn TItem="Invoice" HeaderText="Commentaar" PropertyName="Comments">
+            @context.Comments
+        </GridColumn>
+
         <GridColumn TItem="Invoice" HeaderText="BTW" PropertyName="TotalVat">
             @context.TotalVat.ToString("C2")
         </GridColumn>
@@ -42,9 +47,13 @@ else
 
     <Modal @ref="modal" IsVerticallyCentered="true" Size="ModalSize.Large">
         <FooterTemplate>
+            <Button Color="ButtonColor.Danger" @onclick="OnRemoveClick">Verwijderen</Button>
             <Button Color="ButtonColor.Secondary" @onclick="OnHideModalClick">Sluiten</Button>
             <Button Color="ButtonColor.Primary" @onclick="OnSaveClick">Opslaan</Button>
         </FooterTemplate>
     </Modal>
+
+    <ConfirmDialog @ref="dialog" />
+    
 }
 
