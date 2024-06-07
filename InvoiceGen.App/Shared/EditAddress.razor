@@ -1,0 +1,43 @@
+﻿@using InvoiceGen.Api.Models;
+
+<div class="form-group row mb-3">
+    <label class="col-md-2 col-form-label form-label">Bedrijfsnaam: </label>
+    <div class="col-7 col-md-9">
+        <InputText @bind-Value="address.CompanyName" class="form-control" />
+    </div>
+</div>
+
+<div class="form-group row mb-3">
+    <label class="col-md-2 col-form-label form-label">Straat: </label>
+    <div class="col-7 col-md-9">
+        <InputText @bind-Value="address.Street" class="form-control" />
+    </div>
+</div>
+
+<div class="form-group row mb-3">
+    <label class="col-md-2 col-form-label form-label">Plaats: </label>
+    <div class="col-7 col-md-9">
+        <InputText @bind-Value="address.City" class="form-control" />
+    </div>
+</div>
+
+<div class="form-group row mb-3">
+    <label class="col-md-2 col-form-label form-label">Postcode: </label>
+    <div class="col-7 col-md-9">
+        <InputText @bind-Value="address.Zip" class="form-control" />
+    </div>
+</div>
+
+<div class="form-group row mb-3">
+    <label class="col-md-2 col-form-label form-label">Email: </label>
+    <div class="col-7 col-md-9">
+        <InputText @bind-Value="address.Email" class="form-control" />
+    </div>
+</div>
+
+<div class="form-group row mb-3">
+    <label class="col-md-2 col-form-label form-label">Telefoon: </label>
+    <div class="col-7 col-md-9">
+        <InputText @bind-Value="address.Phone" class="form-control" />
+    </div>
+</div>

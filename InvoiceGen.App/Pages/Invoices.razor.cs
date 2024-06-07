@@ -22,7 +22,6 @@ namespace InvoiceGen.App.Pages
         private Grid<Invoice> grid = default!;
         private Modal modal = default!;
         private ConfirmDialog dialog = default!;
-        protected bool isEditing = false;
 
         protected override async Task OnInitializedAsync()
         {

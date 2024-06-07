@@ -5,9 +5,9 @@ VisualStudioVersion = 17.9.34414.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoiceGen.App", "InvoiceGen.App\InvoiceGen.App.csproj", "{C4E8BF39-78B6-45C8-A798-9B650496FA55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceGen.Api", "InvoiceGen.Api\InvoiceGen.Api.csproj", "{F1DEB60D-E86F-4344-82AA-3EA61939292A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoiceGen.Api", "InvoiceGen.Api\InvoiceGen.Api.csproj", "{F1DEB60D-E86F-4344-82AA-3EA61939292A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceGen.Tests", "InvoiceGen.Tests\InvoiceGen.Tests.csproj", "{A24B77C5-4CF9-4A3D-A5C6-60479899DBD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoiceGen.Tests", "InvoiceGen.Tests\InvoiceGen.Tests.csproj", "{A24B77C5-4CF9-4A3D-A5C6-60479899DBD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
