@@ -12,6 +12,7 @@ namespace InvoiceGen.Api.Pdf
     using QuestPDF.Fluent;
     using QuestPDF.Helpers;
     using QuestPDF.Infrastructure;
+    using System.Data.Common;
     using static System.Net.Mime.MediaTypeNames;
 
     public class InvoiceDocument : IDocument
@@ -48,32 +49,49 @@ namespace InvoiceGen.Api.Pdf
 
         void ComposeHeader(IContainer container)
         {
-            var titleStyle = TextStyle.Default.FontSize(20).SemiBold().FontColor(Colors.Blue.Medium);
+            var titleStyle = TextStyle.Default.FontSize(20).SemiBold().FontColor(Colors.Grey.Medium);
+            var invoiceStyle = TextStyle.Default.FontSize(14).SemiBold().FontColor(Colors.Blue.Medium);
 
-            container.Row(row =>
+            container.Column(column =>
             {
-                row.RelativeItem().Column(column =>
-                {
-                    column.Item().Text($"Factuur {Model.InvoiceId}").Style(titleStyle);
+                column.Spacing(15);
+                column.Item().BorderBottom(1).PaddingBottom(5).Text(Model.SellerAddress.CompanyName).Style(titleStyle);
 
-                    column.Item().Text(text =>
+                column.Item().Row(row =>
+                {
+                    row.RelativeItem().Column(column =>
                     {
-                        text.Span("Factuurdatum: ").SemiBold();
-                        text.Span($"{Model.IssueDate:d}");
+
+                        column.Item().Text($"Factuur: {Model.InvoiceId}").Style(invoiceStyle);
+
+
+                        column.Item().Text(text =>
+                        {
+                            text.Span("Factuurdatum: ").SemiBold();
+                            text.Span($"{Model.IssueDate:d}");
+                        });
+
+                        column.Item().Text(text =>
+                        {
+                            text.Span("BTW Nummer: ").SemiBold();
+                            text.Span($"NL004478108B19");
+                        });
+
+
                     });
+
+                    row.RelativeItem().Column(column =>
+                    {
+                        column.Item().Text($"{Model.SellerAddress.CompanyName}");
+                        column.Item().Text($"{Model.SellerAddress.Street}");
+                        column.Item().Text($"{Model.SellerAddress.Zip}  {Model.SellerAddress.City}");
+                        column.Item().Text($"{Model.SellerAddress.Phone}");
+                        column.Item().Text($"{Model.SellerAddress.Email}");
+
+                    });
+
+                    //row.ConstantItem(100).Height(50).Placeholder($"{Model.InvoiceId}");
                 });
-
-                row.RelativeItem().Column(column =>
-                {
-                    column.Item().Text($"{Model.SellerAddress.CompanyName}");
-                    column.Item().Text($"{Model.SellerAddress.Street}");
-                    column.Item().Text($"{Model.SellerAddress.Zip}  {Model.SellerAddress.City}");
-                    column.Item().Text($"{Model.SellerAddress.Phone}");
-                    column.Item().Text($"{Model.SellerAddress.Email}");
-
-                });
-
-                //row.ConstantItem(100).Height(50).Placeholder($"{Model.InvoiceId}");
             });
         }
 
@@ -86,7 +104,11 @@ namespace InvoiceGen.Api.Pdf
                 column.Item().Row(row =>
                 {
                     row.RelativeItem().Component(new AddressComponent("Aan", Model.CustomerAddress));
-                    row.ConstantItem(150);
+                });
+
+                column.Item().Row(row =>
+                {
+                    row.RelativeItem().Height(32, Unit.Point);
                 });
 
                 column.Item().Element(ComposeTable);
@@ -100,8 +122,8 @@ namespace InvoiceGen.Api.Pdf
                     {
                         column.Item().AlignRight().Text(text =>
                         {
-                            text.Span($"Totaal exclusief BTW: € ").FontSize(12);
-                            text.Span($"{totalAmount}").FontSize(14).SemiBold();
+                            text.Span($"Totaal exclusief BTW: ").FontSize(12);
+                            text.Span($"{totalAmount.ToString("C2")}").FontSize(14).SemiBold();
                         });
                     });
                 });
@@ -112,8 +134,8 @@ namespace InvoiceGen.Api.Pdf
                     {
                         column.Item().AlignRight().Text(text =>
                         {
-                            text.Span($"BTW: € ").FontSize(12);
-                            text.Span($"{VatAmount}").FontSize(14).SemiBold();
+                            text.Span($"BTW: ").FontSize(12);
+                            text.Span($"{VatAmount.ToString("C2")}").FontSize(14).SemiBold();
                         });
                     });
                 });
@@ -124,12 +146,13 @@ namespace InvoiceGen.Api.Pdf
                     {
                         column.Item().AlignRight().Text(text =>
                         {
-                            text.Span($"Totaal inclusief BTW: € ").FontSize(12);
-                            text.Span($"{totalAmountWithVat}").FontSize(14).SemiBold();
+                            text.Span($"Totaal inclusief BTW: ").FontSize(12);
+                            text.Span($"{totalAmountWithVat.ToString("C2")}").FontSize(14).Bold();
                         });
                     });
                 });
 
+                column.Item().PaddingTop(25).Element(ComposePaymentConditions);
 
                 if (!string.IsNullOrWhiteSpace(Model.Comments))
                     column.Item().PaddingTop(25).Element(ComposeComments);
@@ -170,9 +193,9 @@ namespace InvoiceGen.Api.Pdf
                 {
                     table.Cell().Element(CellStyle).Text(Model.Items.IndexOf(item) + 1);
                     table.Cell().Element(CellStyle).Text(item.Name);
-                    table.Cell().Element(CellStyle).AlignRight().Text($"€ {item.Price}");
+                    table.Cell().Element(CellStyle).AlignRight().Text($"{item.Price.ToString("C2")}");
                     table.Cell().Element(CellStyle).AlignRight().Text(item.Quantity);
-                    table.Cell().Element(CellStyle).AlignRight().Text($"€ {Math.Round(item.Price * item.Quantity,2)}");
+                    table.Cell().Element(CellStyle).AlignRight().Text($"{item.Amount.ToString("C2")}");
 
                     static IContainer CellStyle(IContainer container)
                     {
@@ -187,8 +210,22 @@ namespace InvoiceGen.Api.Pdf
             container.Background(Colors.Grey.Lighten3).Padding(10).Column(column =>
             {
                 column.Spacing(5);
-                column.Item().Text("Comments").FontSize(14);
+                column.Item().Text("Opmerkingen").FontSize(14);
                 column.Item().Text(Model.Comments);
+            });
+        }
+
+        void ComposePaymentConditions(IContainer container)
+        {
+            container.Column(column =>
+            {
+                column.Item().AlignLeft().Text(text =>
+                {
+                    text.Line($"Graag het verschuldigde bedrag binnen 14 dagen overmaken naar rekeningnummer").FontSize(12);
+                    text.EmptyLine();
+                    text.Span($"NL71 INGB 0755 8617 36").FontSize(14).Bold();
+                    text.Span($", ten name van T. Visser").FontSize(12);
+                });
             });
         }
 

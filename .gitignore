@@ -398,5 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 # uploads
-/InvoiceGen/InvoiceGen.App/unsafe_uploads
 /InvoiceGen.App/unsafe_uploads

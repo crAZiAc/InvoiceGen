@@ -71,6 +71,7 @@ namespace InvoiceGen.Api.Controllers
                 {
                     invoice.SellerAddress = checkSeller;
                     invoice.CustomerAddress = checkCustomer;
+                    invoice.IssueDate = invoice.IssueDate.Value.ToUniversalTime();
                     await _invoiceService.AddInvoiceAsync(invoice);
                     return invoice;
                 }
@@ -90,6 +91,7 @@ namespace InvoiceGen.Api.Controllers
                 {
                     invoice.SellerAddress = checkSeller;
                     invoice.CustomerAddress = checkCustomer;
+                    invoice.IssueDate = invoice.IssueDate.Value.ToUniversalTime();
                     await _invoiceService.UpdateInvoiceAsync(invoice);
                     return invoice;
                 }

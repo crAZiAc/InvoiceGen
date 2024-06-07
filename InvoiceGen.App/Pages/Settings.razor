@@ -1,0 +1,32 @@
+﻿@page "/settings"
+@using InvoiceGen.App.Data
+@using InvoiceGen.Api
+@using InvoiceGen.Api.Models;
+@attribute [Authorize]
+
+<PageTitle>Instellingen</PageTitle>
+
+<h1>Instellingen</h1>
+
+@if (_addresses == null)
+{
+    <p><em>Debiteuren laden...</em></p>
+}
+else
+{
+    <div class="form-group row mb-3">
+        <label class="col-md-2 col-form-label form-label">Eigen adres: </label>
+        <div class="col-7 col-md-9">
+                <InputSelect ValueExpression="@(()=>_selectedSellerId.Id)" class="form-select"
+                             Value="@_selectedSellerId.Id"
+                             ValueChanged="@((string value) => SelectionChanged(value ))">
+                @foreach (Address address in _addresses)
+                {
+                    <option value="@address.RowKey">
+                        @address.CompanyName
+                    </option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+}

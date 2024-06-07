@@ -2,6 +2,7 @@
 @using InvoiceGen.App.Data
 @using InvoiceGen.Api
 @using InvoiceGen.Api.Models;
+
 @attribute [Authorize]
 
 <PageTitle>Facturen</PageTitle>
@@ -14,7 +15,7 @@
 }
 else
 {
-    
+
     <Button Type="ButtonType.Button" Color="ButtonColor.Primary" @onclick="AddInvoice"> Maak factuur </Button>
     <Grid @ref="grid" TItem="Invoice" class="table table-hover table-bordered table-striped mt-3" Data="_invoices"
           AllowFiltering
@@ -47,6 +48,7 @@ else
 
     <Modal @ref="modal" IsVerticallyCentered="true" Size="ModalSize.Large">
         <FooterTemplate>
+            <Button Color="ButtonColor.Info" @onclick="OnGeneratePdf">Maak PDF</Button>
             <Button Color="ButtonColor.Danger" @onclick="OnRemoveClick">Verwijderen</Button>
             <Button Color="ButtonColor.Secondary" @onclick="OnHideModalClick">Sluiten</Button>
             <Button Color="ButtonColor.Primary" @onclick="OnSaveClick">Opslaan</Button>
@@ -54,6 +56,15 @@ else
     </Modal>
 
     <ConfirmDialog @ref="dialog" />
-    
+
+    @if (showPdf)
+    {
+        <Button Color="ButtonColor.Secondary" @onclick="OnHidePdfViewerClick">Sluit PDF</Button>
+        <PdfViewer Class="mb-3"
+                   Url="@string.Format("data:application/pdf;base64,{0}", _pdfBase64)"
+                   OnDocumentLoaded="OnDocumentLoaded"
+                   OnPageChanged="OnPageChanged" />
+    }
+
 }
 

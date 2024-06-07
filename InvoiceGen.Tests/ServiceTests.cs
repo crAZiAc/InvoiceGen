@@ -102,7 +102,52 @@ namespace InvoiceGen.Tests
             {
                 Assert.AreEqual(true, false);
             }
-            
+
+        } // end t
+
+
+        [TestMethod]
+        public void AddInvoiceSettingsTest()
+        {
+            string connectString = "UseDevelopmentStorage=true";
+            var serviceClient = new TableServiceClient(connectString);
+            InvoiceSettingsService service = new InvoiceSettingsService(serviceClient, connectString);
+            InvoiceSettings settings = new InvoiceSettings
+            {
+                SelectedSellerAddressId = "ba99e3c3-24a7-42ae-81b9-491d8df54998"
+            };
+            service.AddSettingAsync(settings);
+            InvoiceSettings invoiceSettingsCheck = service.GetSettingAsync().Result;
+            if (invoiceSettingsCheck != null)
+            {
+                Assert.AreEqual("ba99e3c3-24a7-42ae-81b9-491d8df54998", invoiceSettingsCheck.SelectedSellerAddressId);
+            }
+            else
+            {
+                Assert.AreEqual(true, false);
+            }
+        } // end t
+
+        [TestMethod]
+        public void UpdateInvoiceSettingsTest()
+        {
+            string connectString = "UseDevelopmentStorage=true";
+            var serviceClient = new TableServiceClient(connectString);
+            InvoiceSettingsService service = new InvoiceSettingsService(serviceClient, connectString);
+            InvoiceSettings settings = new InvoiceSettings
+            {
+                SelectedSellerAddressId = "ba99e3c3-24a7-42ae-81b9-491d8df54998"
+            };
+            service.UpdateSettingAsync(settings);
+            InvoiceSettings invoiceSettingsCheck = service.GetSettingAsync().Result;
+            if (invoiceSettingsCheck != null)
+            {
+                Assert.AreEqual("ba99e3c3-24a7-42ae-81b9-491d8df54998", invoiceSettingsCheck.SelectedSellerAddressId);
+            }
+            else
+            {
+                Assert.AreEqual(true, false);
+            }
         } // end t
     } // end c
 } // end ns

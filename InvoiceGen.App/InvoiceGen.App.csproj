@@ -16,7 +16,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.13" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.13" />
     <PackageReference Include="Microsoft.Extensions.Azure" Version="1.5.0" />
   </ItemGroup>
@@ -99,6 +99,11 @@
 
   <ItemGroup>
     <None Remove="C:\Users\TomdeRidder\.nuget\packages\questpdf\2024.3.10\buildTransitive\..\LatoFont\Lato-Black.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+    <Folder Include="unsafe_uploads\" />
   </ItemGroup>
 
 </Project>

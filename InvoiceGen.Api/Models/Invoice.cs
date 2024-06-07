@@ -63,46 +63,5 @@ namespace InvoiceGen.Api.Models
 
     } // end c
 
-    public class OrderItem : BaseEntity, ITableEntity
-    {
-        public OrderItem()
-        {
-            this.PartitionKey = "OrderItem";
-        }
-        public string RelatedInvoiceId { get; set; }
-        public string Name { get; set; }
-        public double Price { get; set; }
-        public int Quantity { get; set; }
-        [IgnoreDataMember]
-        public double VatAmount
-        {
-            get
-            {
-                return Price * Quantity * Constants.VAT_AMOUNT;
-            }
-        }
-        [IgnoreDataMember]
-        public double Amount
-        {
-            get
-            {
-                return Price * Quantity;
-            }
-        }
-    } // end c
-
-    public class Address : BaseEntity, ITableEntity
-    {
-        public Address()
-        {
-            this.PartitionKey = "Address";
-        }
-        public string CompanyName { get; set; }
-        public string Street { get; set; }
-        public string City { get; set; }
-        public string Zip { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-    } // end c
-
+   
 } // end ns

@@ -3,14 +3,13 @@
 <div class="bb-page">
 
     <Sidebar @ref="sidebar"
-             IconName="IconName.BootstrapFill"
-             Title="Blazor Bootstrap"
+             IconName="IconName.FileEarmarkPdf"
+             Title="Facturen Tom"
              DataProvider="SidebarDataProvider" />
 
     <main>
         <div class="bb-top-row px-4 d-flex justify-content-end">
             <LoginDisplay />
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
         </div>
 
         <article class="content px-4">
@@ -45,6 +44,7 @@
             new NavItem { Id = "1", Href = "/", IconName = IconName.HouseDoorFill, Text = "Home", Match=NavLinkMatch.All},
             new NavItem { Id = "2", Href = "/invoices", IconName = IconName.PlusSquareFill, Text = "Facturen"},
             new NavItem { Id = "3", Href = "/debtor", IconName = IconName.Table, Text = "Debiteuren"},
+            new NavItem { Id = "4", Href = "/settings", IconName = IconName.Gear, Text = "Instellingen"}
         };
 
         return navItems;

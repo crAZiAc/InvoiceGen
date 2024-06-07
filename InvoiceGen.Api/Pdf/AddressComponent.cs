@@ -31,8 +31,8 @@ namespace InvoiceGen.Api.Pdf
                 column.Item().Text(Address.CompanyName);
                 column.Item().Text(Address.Street);
                 column.Item().Text($"{Address.Zip}  {Address.City}");
-                column.Item().Text(Address.Email);
-                column.Item().Text(Address.Phone);
+                //column.Item().Text(Address.Email);
+                //column.Item().Text(Address.Phone);
             });
         }
     } // end c

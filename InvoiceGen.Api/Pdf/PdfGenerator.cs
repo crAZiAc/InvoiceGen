@@ -2,6 +2,7 @@
 using InvoiceGen.Api.Pdf;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
+using QuestPDF.Previewer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

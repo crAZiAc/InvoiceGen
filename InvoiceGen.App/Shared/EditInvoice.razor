@@ -45,7 +45,7 @@
             @context.Quantity
         </GridColumn>
         <GridColumn TItem="OrderItem" HeaderText="Prijs" PropertyName="Price">
-            @context.Price
+            @context.Price.ToString("C2")
         </GridColumn>
         <GridColumn TItem="OrderItem" HeaderText="BTW" PropertyName="VatAmount">
             @context.VatAmount.ToString("C2")
@@ -69,7 +69,7 @@
     <div class="form-group row mb-3">
         <label class="col-md-2 col-form-label">Aantal: </label>
         <div class="col-md-10">
-            <NumberInput TValue="int" @bind-Value="currentItem.Quantity" Placeholder="Aantal" />
+            <NumberInput TValue="double" @bind-Value="currentItem.Quantity" Placeholder="Aantal" />
         </div>
     </div>
 

@@ -13,30 +13,27 @@ using Microsoft.Extensions.DependencyInjection;
 using QuestPDF.Infrastructure;
 using System.Globalization;
 using Microsoft.Extensions.Azure;
+using InvoiceGen.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
-
-#if !DEBUG
-var keyVaultEndpoint = new Uri(builder.Configuration["VaultUri"]);
-builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
-#endif
 
 QuestPDF.Settings.License = LicenseType.Community;
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlite(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
-{
-    microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
-    microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
-});
+//builder.Services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
+//{
+//    microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
+//    microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
+//});
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
@@ -44,6 +41,8 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 
 builder.Services.AddSingleton<IInvoiceService>(InitializeInvoiceTableClientInstanceAsync(builder.Configuration).GetAwaiter().GetResult());
 builder.Services.AddSingleton<IAddressService>(InitializeAddressTableClientInstanceAsync(builder.Configuration).GetAwaiter().GetResult());
+builder.Services.AddSingleton<ISettingsService>(InitializeSettingsTableClientInstanceAsync(builder.Configuration).GetAwaiter().GetResult());
+builder.Services.AddSingleton<SelectedSellerId>(s => new SelectedSellerId());
 builder.Services.AddBlazorBootstrap();
 
 
@@ -97,5 +96,14 @@ static async Task<AddressService> InitializeAddressTableClientInstanceAsync(Conf
     var serviceClient = new TableServiceClient(connectionString);
 
     AddressService tableDbService = new AddressService(serviceClient, connectionString);
+    return tableDbService;
+}
+
+static async Task<InvoiceSettingsService> InitializeSettingsTableClientInstanceAsync(ConfigurationManager configManager)
+{
+    string connectionString = configManager["StorageAccount:table"]!;
+    var serviceClient = new TableServiceClient(connectionString);
+
+    InvoiceSettingsService tableDbService = new InvoiceSettingsService(serviceClient, connectionString);
     return tableDbService;
 }
