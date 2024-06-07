@@ -127,6 +127,8 @@ namespace InvoiceGen.App.Pages
 
             await js.InvokeAsync<object>("psInterop.saveFile", _pdfFileNameShort, _pdfBase64);
 
+            File.Delete(_pdfFileName);
+
         }
 
         private void OnDocumentLoaded(PdfViewerEventArgs args)
