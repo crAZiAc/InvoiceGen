@@ -396,3 +396,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# uploads
+/InvoiceGen/InvoiceGen.App/unsafe_uploads
+/InvoiceGen.App/unsafe_uploads
