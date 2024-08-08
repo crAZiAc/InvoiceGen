@@ -89,6 +89,21 @@ namespace InvoiceGen.Tests
         } // end t
 
         [TestMethod]
+        public async Task GetQuarterReportsTest()
+        {
+            string connectString = "UseDevelopmentStorage=true";
+            var serviceClient = new TableServiceClient(connectString);
+            InvoiceService invoiceService = new InvoiceService(serviceClient, connectString);
+            AddressService addressService = new AddressService(serviceClient, connectString);
+            InvoiceController controller = new InvoiceController(invoiceService, addressService);
+
+            var reports = await controller.GetQuarterReports();
+
+            Assert.AreEqual(reports.Count, 3);
+
+        } // end t
+
+        [TestMethod]
         public void GetInvoicesTest()
         {
             string connectString = "UseDevelopmentStorage=true";

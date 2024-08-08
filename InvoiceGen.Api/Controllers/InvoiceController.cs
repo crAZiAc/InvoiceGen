@@ -23,7 +23,7 @@ namespace InvoiceGen.Api.Controllers
         public async Task<List<Invoice>> GetInvoices()
         {
             var invoices = await _invoiceService.GetInvoicesAsync();
-            foreach(var invoice in invoices) 
+            foreach (var invoice in invoices)
             {
                 // Fill Seller and Customer Addresses
                 var seller = await _addressService.GetAddressAsync(invoice.SellerAddressId);
@@ -118,6 +118,38 @@ namespace InvoiceGen.Api.Controllers
         {
             await _invoiceService.DeleteOrderItemAsync(ID);
         } // end f
+
+        public async Task<List<QuarterReport>> GetQuarterReports()
+        {
+            Dictionary<string, QuarterReport> reports = new Dictionary<string, QuarterReport>();
+
+            var invoices = await _invoiceService.GetInvoicesAsync();
+            foreach (var invoice in invoices.OrderBy(i => i.IssueDate))
+            {
+                string quarterName = $"{invoice.IssueDate.Value.Year} - kwartaal {invoice.IssueDate.Value.GetQuarter()}";
+                if (reports.ContainsKey(quarterName))
+                {
+                    reports[quarterName].TotalAmountWithVat += invoice.TotalAmountWithVat;
+                    reports[quarterName].TotalAmount += invoice.TotalAmount;
+                    reports[quarterName].TotalVatAmount += invoice.TotalVat;
+                    reports[quarterName].NumberOfInvoices += 1;
+                }
+                else
+                {
+                    reports.Add(quarterName, new QuarterReport
+                    {
+                        Quarter = quarterName,
+                        TotalAmount = invoice.TotalAmount,
+                        TotalAmountWithVat = invoice.TotalAmountWithVat,
+                        TotalVatAmount = invoice.TotalVat,
+                        NumberOfInvoices = 1
+                    }
+                    ); 
+                }
+            }
+            return reports.Values.ToList();
+        } // end f
+
 
     } // end c
 } // end ns

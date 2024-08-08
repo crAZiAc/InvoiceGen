@@ -1,8 +1,47 @@
 ﻿@page "/"
+@using InvoiceGen.App.Data
+@using InvoiceGen.Api
+@using InvoiceGen.Api.Models;
 
 <PageTitle>Facturen maken voor Tom</PageTitle>
 
 <h1>Facturen</h1>
 
 Klik op <strong>Facturen</strong> of <strong>Debiteuren</strong> aan de linkerkant van het scherm om verder te gaan.
+<br />
+
+<AuthorizeView Context="auth">
+    <Authorized>
+        <h2>Overzicht van kwartaalomzet</h2>
+        @if (_reports == null)
+        {
+            <p>Laden van kwartaalomzet</p>
+        }
+        else
+        {
+            <Grid @ref="grid" TItem="QuarterReport" class="table table-hover table-bordered table-striped mt-3" Data="_reports"
+                  AllowSorting
+                  AllowPaging
+                  PageSize="10">
+                <GridColumn TItem="QuarterReport" HeaderText="Kwartaal" PropertyName="Quarter">
+                    @context.Quarter
+                </GridColumn>
+                <GridColumn TItem="QuarterReport" HeaderText="Totaalbedrag zonder BTW" PropertyName="TotalAmount">
+                    @context.TotalAmount.ToString("C2")
+                </GridColumn>
+                <GridColumn TItem="QuarterReport" HeaderText="BTW" PropertyName="TotalVatAmount">
+                    @context.TotalVatAmount.ToString("C2")
+                </GridColumn>
+                <GridColumn TItem="QuarterReport" HeaderText="Totaalbedrag inclusief BTW" PropertyName="TotalAmountWithVat">
+                    @context.TotalAmountWithVat.ToString("C2")
+                </GridColumn>
+                <GridColumn TItem="QuarterReport" HeaderText="Aantal facturen" PropertyName="NumberOfInvoices">
+                    @context.NumberOfInvoices
+                </GridColumn>
+            </Grid>
+        }
+    </Authorized>
+</AuthorizeView>
+
+
 
