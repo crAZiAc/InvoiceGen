@@ -8,6 +8,6 @@ namespace InvoiceGen.Api
 {
     public static class Constants
     {
-        public const double VAT_AMOUNT = 0.21;
+        public const double VAT_AMOUNT = 0.0;
     } // end c
 } // end ns

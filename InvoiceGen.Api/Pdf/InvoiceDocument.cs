@@ -71,11 +71,11 @@ namespace InvoiceGen.Api.Pdf
                             text.Span($"{Model.IssueDate:d}");
                         });
 
-                        column.Item().Text(text =>
-                        {
-                            text.Span("BTW Nummer: ").SemiBold();
-                            text.Span($"NL004478108B19");
-                        });
+                        //column.Item().Text(text =>
+                        //{
+                        //    text.Span("BTW Nummer: ").SemiBold();
+                        //    text.Span($"NL004478108B19");
+                        //});
 
 
                     });
@@ -116,17 +116,29 @@ namespace InvoiceGen.Api.Pdf
                 var totalAmount = Model.TotalAmount;
                 var totalAmountWithVat = Model.TotalAmountWithVat;
                 var VatAmount = Model.TotalVat;
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Column(column =>
-                    {
-                        column.Item().AlignRight().Text(text =>
-                        {
-                            text.Span($"Totaal exclusief BTW: ").FontSize(12);
-                            text.Span($"{totalAmount.ToString("C2")}").FontSize(14).SemiBold();
-                        });
-                    });
-                });
+                //column.Item().Row(row =>
+                //{
+                //    row.RelativeItem().Column(column =>
+                //    {
+                //        column.Item().AlignRight().Text(text =>
+                //        {
+                //            text.Span($"Totaal exclusief BTW: ").FontSize(12);
+                //            text.Span($"{totalAmount.ToString("C2")}").FontSize(14).SemiBold();
+                //        });
+                //    });
+                //});
+
+                //column.Item().Row(row =>
+                //{
+                //    row.RelativeItem().Column(column =>
+                //    {
+                //        column.Item().AlignRight().Text(text =>
+                //        {
+                //            text.Span($"BTW: ").FontSize(12);
+                //            text.Span($"{VatAmount.ToString("C2")}").FontSize(14).SemiBold();
+                //        });
+                //    });
+                //});
 
                 column.Item().Row(row =>
                 {
@@ -134,19 +146,7 @@ namespace InvoiceGen.Api.Pdf
                     {
                         column.Item().AlignRight().Text(text =>
                         {
-                            text.Span($"BTW: ").FontSize(12);
-                            text.Span($"{VatAmount.ToString("C2")}").FontSize(14).SemiBold();
-                        });
-                    });
-                });
-
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Column(column =>
-                    {
-                        column.Item().AlignRight().Text(text =>
-                        {
-                            text.Span($"Totaal inclusief BTW: ").FontSize(12);
+                            text.Span($"Totaal: ").FontSize(12);
                             text.Span($"{totalAmountWithVat.ToString("C2")}").FontSize(14).Bold();
                         });
                     });
@@ -223,8 +223,8 @@ namespace InvoiceGen.Api.Pdf
                 {
                     text.Line($"Graag het verschuldigde bedrag binnen 14 dagen overmaken naar rekeningnummer").FontSize(12);
                     text.EmptyLine();
-                    text.Span($"NL71 INGB 0755 8617 36").FontSize(14).Bold();
-                    text.Span($", ten name van T. Visser").FontSize(12);
+                    text.Span($"NL98 INGB 0670 5939 82").FontSize(14).Bold();
+                    text.Span($", ten name van Robyn de Ridder").FontSize(12);
                 });
             });
         }

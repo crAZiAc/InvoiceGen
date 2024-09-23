@@ -43,7 +43,7 @@ namespace InvoiceGen.App.Pages
                 { "address", _currentAddress },
                 { "OnDeleteItemCallBack", EventCallback.Factory.Create<Address>(this,RemoveOrderItem) }
             };
-            await modal.ShowAsync<EditAddress>(title: $"Debiteur: {_currentAddress.CompanyName}", parameters: parameters);
+            await modal.ShowAsync<EditAddress>(title: $"Klant: {_currentAddress.CompanyName}", parameters: parameters);
         }
 
         private async Task OnHideModalClick()
@@ -63,8 +63,8 @@ namespace InvoiceGen.App.Pages
         {
             var options = new ConfirmDialogOptions { IsVerticallyCentered = true };
             var confirmation = await dialog.ShowAsync(
-               title: $"{_currentAddress.CompanyName} -  Weet je zeker dat je deze debiteur wilt verwijderen?",
-               message1: "De debiteur wordt verwijderd.",
+               title: $"{_currentAddress.CompanyName} -  Weet je zeker dat je deze klant wilt verwijderen?",
+               message1: "De klant wordt verwijderd.",
                message2: "Wil je verdergaan met verwijderen?",
                confirmDialogOptions: options);
 

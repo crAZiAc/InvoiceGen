@@ -6,17 +6,17 @@
 @using InvoiceGen.Api.Models;
 @attribute [Authorize]
 
-<PageTitle>Debiteuren</PageTitle>
+<PageTitle>Klanten</PageTitle>
 
-<h1>Debiteuren</h1>
+<h1>Klanten</h1>
 
 @if (_addresses == null)
 {
-    <p><em>Debiteuren laden...</em></p>
+    <p><em>Klanten laden...</em></p>
 }
 else
 {
-    <Button Type="ButtonType.Button" Color="ButtonColor.Primary" @onclick="AddAddress"> Maak debiteur </Button>
+    <Button Type="ButtonType.Button" Color="ButtonColor.Primary" @onclick="AddAddress"> Maak klant aan </Button>
     <Grid @ref="grid" TItem="Address" class="table table-hover table-bordered table-striped mt-3" Data="_addresses"
           AllowFiltering
           AllowSorting
@@ -24,7 +24,7 @@ else
           PageSize="5"
           AllowRowClick
           OnRowDoubleClick="EditAddress">
-        <GridColumn TItem="Address" HeaderText="Bedrijfsnaam" PropertyName="CompanyName">
+        <GridColumn TItem="Address" HeaderText="Klant" PropertyName="CompanyName">
             @context.CompanyName
         </GridColumn>
         <GridColumn TItem="Address" HeaderText="Straat" PropertyName="Street">
@@ -47,8 +47,8 @@ else
     <Modal @ref="modal" IsVerticallyCentered="true" Size="ModalSize.Large">
         <FooterTemplate>
             <Button Color="ButtonColor.Danger" @onclick="OnRemoveClick">Verwijderen</Button>
-            <Button Color="ButtonColor.Secondary" @onclick="OnHideModalClick">Sluiten</Button>
             <Button Color="ButtonColor.Primary" @onclick="OnSaveClick">Opslaan</Button>
+            <Button Color="ButtonColor.Secondary" @onclick="OnHideModalClick">Sluiten</Button>
         </FooterTemplate>
     </Modal>
 
