@@ -11,12 +11,16 @@ namespace InvoiceGen.Api.Models
         public Invoice()
         {
             this.PartitionKey = "Invoice";
+            this.Paid = false;
         }
         public int InvoiceNumber { get; set; }
         public DateTime? IssueDate { get; set; }
 
         public string SellerAddressId { get; set; }
         public string CustomerAddressId { get; set; }
+        public string Name { get; set; }
+
+        public bool Paid { get; set; }
 
         [IgnoreDataMember]
         public Address SellerAddress { get; set; }
@@ -26,6 +30,8 @@ namespace InvoiceGen.Api.Models
         [IgnoreDataMember]
         public List<OrderItem> Items { get; set; }
         public string Comments { get; set; }
+
+
 
         [IgnoreDataMember]
         public string InvoiceId
@@ -58,6 +64,22 @@ namespace InvoiceGen.Api.Models
             get
             {
                 return Math.Round(Items.Sum(i => i.VatAmount), 2);
+            }
+        }
+
+        [IgnoreDataMember]
+        public string PaidInText
+        {
+            get
+            {
+                if (this.Paid)
+                {
+                    return "Ja";
+                }
+                else
+                {
+                    return "Nee";
+                }
             }
         }
 

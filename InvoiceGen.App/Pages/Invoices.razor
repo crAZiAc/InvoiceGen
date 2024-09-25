@@ -27,6 +27,9 @@ else
         <GridColumn TItem="Invoice" HeaderText="Factuurnummer" PropertyName="InvoiceId">
             @context.InvoiceId
         </GridColumn>
+        <GridColumn TItem="Invoice" HeaderText="Factuurnaam" PropertyName="Na`me">
+            @context.Name
+        </GridColumn>
         <GridColumn TItem="Invoice" HeaderText="Factuurdatum" PropertyName="IssueDate">
             @context.IssueDate.Value.ToShortDateString()
         </GridColumn>
@@ -38,11 +41,14 @@ else
             @context.Comments
         </GridColumn>
 
-        <GridColumn TItem="Invoice" HeaderText="BTW" PropertyName="TotalVat">
+       @*  <GridColumn TItem="Invoice" HeaderText="BTW" PropertyName="TotalVat">
             @context.TotalVat.ToString("C2")
-        </GridColumn>
+        </GridColumn> *@
         <GridColumn TItem="Invoice" HeaderText="Totaal" PropertyName="TotalAmountWithVat">
             @context.TotalAmountWithVat.ToString("C2")
+        </GridColumn>
+        <GridColumn TItem="Invoice" HeaderText="Betaald?" PropertyName="PaidInText">
+            @context.PaidInText
         </GridColumn>
     </Grid>
 

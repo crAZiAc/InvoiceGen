@@ -13,6 +13,7 @@ namespace InvoiceGen.Api.Models
         public OrderItem()
         {
             this.PartitionKey = "OrderItem";
+            this.Name = "Bijlesuren";
         }
         public string RelatedInvoiceId { get; set; }
         public string Name { get; set; }

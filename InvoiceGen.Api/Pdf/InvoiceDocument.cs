@@ -224,7 +224,7 @@ namespace InvoiceGen.Api.Pdf
                     text.Line($"Graag het verschuldigde bedrag binnen 14 dagen overmaken naar rekeningnummer").FontSize(12);
                     text.EmptyLine();
                     text.Span($"NL98 INGB 0670 5939 82").FontSize(14).Bold();
-                    text.Span($", ten name van Robyn de Ridder").FontSize(12);
+                    text.Span($", ten name van Robyn de Ridder, of betaal bijgestuurde Tikkie").FontSize(12);
                 });
             });
         }

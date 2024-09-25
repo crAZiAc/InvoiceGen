@@ -4,6 +4,14 @@
     <label class="col-md-2 col-form-label form-label">Factuurnummer: </label>
     <div class="col-7 col-md-9"><input type="text" readonly disabled value="@invoice.InvoiceId" class="form-control" /></div>
 </div>
+
+<div class="form-group row mb-3">
+    <label class="col-md-2 col-form-label form-label">Naam: </label>
+    <div class="col-7 col-md-9">
+        <InputText @bind-Value="invoice.Name" class="form-control" />
+    </div>
+</div>
+
 <div class="form-group row mb-3">
     <label class="col-md-2 col-form-label">Factuurdatum: </label>
     <div class="col-md-10">
@@ -14,7 +22,7 @@
 <div class="form-group row mb-3">
     <label class="col-md-2 col-form-label form-label">Commentaar: </label>
     <div class="col-7 col-md-9">
-        <InputText @bind-Value="invoice.Comments" class="form-control" />
+        <InputTextArea @bind-Value="invoice.Comments" class="form-control" />
         </div>
 </div>
 
@@ -30,6 +38,14 @@
                 </option>
             }
         </InputSelect>
+    </div>
+</div>
+
+<div class="form-group row mb-3">
+    <label class="col-md-2 col-form-label form-label">Betaald: </label>
+    <div class="col-7 col-md-9">
+        <InputCheckbox @bind-Value="invoice.Paid" class="form-check">
+        </InputCheckbox>
     </div>
 </div>
 
