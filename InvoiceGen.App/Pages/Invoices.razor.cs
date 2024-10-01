@@ -106,7 +106,7 @@ namespace InvoiceGen.App.Pages
 
         private async Task OnGeneratePdf()
         {
-            _pdfFileNameShort = $"Factuur-{_currentInvoice.InvoiceId}-{_currentInvoice.IssueDate.Value.ToShortDateString()}.pdf";
+            _pdfFileNameShort = $"{_currentInvoice.InvoiceId}-{_currentInvoice.Name}-{_currentInvoice.IssueDate.Value.ToShortDateString()}.pdf";
             var dirPath = Path.Combine(Environment.CurrentDirectory, "unsafe_uploads");
             if (!System.IO.Directory.Exists(dirPath))
             {
