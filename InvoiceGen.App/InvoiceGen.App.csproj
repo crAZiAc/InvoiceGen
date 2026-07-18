@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-InvoiceGen.App-4a8d44bd-4b6f-48ca-b91f-f48181f8bbbf</UserSecretsId>
@@ -104,6 +104,12 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="unsafe_uploads\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="app.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
